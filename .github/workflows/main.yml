@@ -1,29 +1,28 @@
 name: OpenWrt image builder for TPLink-Archer-C2-V1
-on: 
-  push:
-    branches: 
-      - master
+on:
+    push:
+        branches:
+            - master
 jobs:
-  build:
-    runs-on: ubuntu-latest
-
-    steps:
-    - name: Init 
-      env:
-        DEBIAN_FRONTEND: noninteractive
-        DOWNLOAD_URL: https://downloads.openwrt.org/releases/22.03.5/targets/ramips/mt7620/openwrt-imagebuilder-22.03.5-ramips-mt7620.Linux-x86_64.tar.xz
-      run: |
-        sudo apt-get install build-essential libncurses5-dev libncursesw5-dev zlib1g-dev gawk git gettext libssl-dev xsltproc wget unzip python
-        wget -O /tmp/imagebuilder.tar.xz $DOWNLOAD_URL
-        sudo xz -d /tmp/imagebuilder.tar.xz
-        sudo tar -C /tmp -xvf /tmp/imagebuilder.tar
-    - name: pack image
-      run: |
-        cd /tmp/$(ls /tmp | grep 'openwrt-imagebuilder')
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Init 
+      env:
+        DEBIAN_FRONTEND: noninteractive
+        DOWNLOAD_URL: https://downloads.openwrt.org/releases/22.03.5/targets/ramips/mt7620/openwrt-imagebuilder-22.03.5-ramips-mt7620.Linux-x86_64.tar.xz
+      run: |
+        sudo apt-get install build-essential libncurses5-dev libncursesw5-dev zlib1g-dev gawk git gettext libssl-dev xsltproc wget unzip python 
+        wget -O /tmp/imagebuilder.tar.xz $DOWNLOAD_URL
+        sudo xz -d /tmp/imagebuilder.tar.xz
+        sudo tar -C /tmp -xvf /tmp/imagebuilder.tar
+    - name: pack image
+      run: |
+        cd /tmp/$(ls /tmp | grep 'openwrt-imagebuilder')
         sudo make image PROFILE=tplink_archer-c2-v1 PACKAGES="luci luci-app-qos luci-app-upnp luci-proto-ipv6 kmod-usb-net-rndis kmod-usb-net-cdc-ncm kmod-nls-base kmod-usb-core kmod-usb-net kmod-usb-net-cdc-ether kmod-usb2 kmod-usb-net-ipheth usbmuxd libimobiledevice usbutils"
-        cp -r bin /tmp
-    - name : upload 
-      uses: actions/upload-artifact@master
-      with:
-        name: image
-        path: /tmp/bin
+        cp -r bin /tmp
+    - name : upload 
+      uses: actions/upload-artifact@master
+      with:
+        name: image
+        path: /tmp/bin

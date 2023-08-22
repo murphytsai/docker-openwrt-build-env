@@ -23,7 +23,7 @@ jobs:
         cd /tmp/$(ls /tmp | grep 'openwrt-imagebuilder')
         make image PROFILE=tplink_archer-c2-v1 PACKAGES="luci luci-app-qos luci-app-upnp luci-proto-ipv6 kmod-usb-net-rndis kmod-usb-net-cdc-ncm kmod-nls-base kmod-usb-core kmod-usb-net kmod-usb-net-cdc-ether kmod-usb2 kmod-usb-net-ipheth usbmuxd libimobiledevice usbutils"
         cp -r bin /tmp
-        zip -v --junk-paths -r image /tmp/bin
+        cd /tmp; zip -v --junk-paths -r image /tmp/bin
     - name: Create Release
       id: create_release
       uses: actions/create-release@v1

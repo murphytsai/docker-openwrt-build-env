@@ -16,8 +16,8 @@ jobs:
       run: |
         sudo apt-get install build-essential libncurses5-dev libncursesw5-dev zlib1g-dev gawk git gettext libssl-dev xsltproc wget unzip python-is-python3 
         wget -O /tmp/imagebuilder.tar.xz $DOWNLOAD_URL
-        sudo xz -d /tmp/imagebuilder.tar.xz
-        sudo tar -C /tmp -xvf /tmp/imagebuilder.tar
+        xz -d /tmp/imagebuilder.tar.xz
+        tar -C /tmp -xvf /tmp/imagebuilder.tar
     - name: pack image
       run: |
         cd /tmp/$(ls /tmp | grep 'openwrt-imagebuilder')
